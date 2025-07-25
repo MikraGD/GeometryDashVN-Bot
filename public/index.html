@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDVN Bot Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #DA020E, #FF6B6B);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #DA020E;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #DA020E;
+        }
+        
+        .form-group .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            background: #DA020E;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #B8020C;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .bot-status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .bot-status.online {
+            border-left: 5px solid #28a745;
+        }
+        
+        .bot-status.offline {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .feature-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-section h3 {
+            color: #DA020E;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 GDVN Bot</h1>
+            <p>Cấu hình Bot cho Cộng đồng Geometry Dash Việt Nam</p>
+        </div>
+
+        <div class="bot-status" id="botStatus">
+            <h3>🤖 Trạng thái Bot</h3>
+            <p id="statusText">Đang kiểm tra...</p>
+        </div>
+
+        <form id="configForm">
+            <div class="feature-section">
+                <h3>🔐 Cấu hình Discord</h3>
+                
+                <div class="form-group">
+                    <label for="discordToken">Discord Bot Token</label>
+                    <input type="password" id="discordToken" name="discordToken" placeholder="Bot token từ Discord Developer Portal">
+                    <div class="help-text">Token bí mật để bot kết nối với Discord</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientId">Client ID</label>
+                    <input type="text" id="clientId" name="clientId" placeholder="Client ID của bot">
+                    <div class="help-text">ID ứng dụng Discord của bot</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="logChannelId">Log Channel ID</label>
+                    <input type="text" id="logChannelId" name="logChannelId" placeholder="ID kênh để ghi log">
+                    <div class="help-text">Kênh Discord để bot gửi thông báo log</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="autoRoleId">Auto Role ID</label>
+                    <input type="text" id="autoRoleId" name="autoRoleId" placeholder="ID role tự động">
+                    <div class="help-text">Role sẽ được tự động gán cho thành viên mới</div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <h3>🤖 Cấu hình AI Chatbot</h3>
+                
+                <div class="form-group">
+                    <label for="openaiApiKey">OpenAI API Key</label>
+                    <input type="password" id="openaiApiKey" name="openaiApiKey" placeholder="sk-...">
+                    <div class="help-text">API key để sử dụng ChatGPT/GPT-4</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="aiModel">AI Model</label>
+                    <select id="aiModel" name="aiModel" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1em;">
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                        <option value="gpt-4">GPT-4</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    </select>
+                    <div class="help-text">Mô hình AI sử dụng cho chatbot</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="systemPrompt">System Prompt</label>
+                    <textarea id="systemPrompt" name="systemPrompt" rows="4" placeholder="Bạn là một trợ lý AI cho cộng đồng Geometry Dash Việt Nam...">Bạn là một trợ lý AI cho cộng đồng Geometry Dash Việt Nam. Hãy trả lời bằng tiếng Việt và giúp đỡ người chơi về game Geometry Dash.</textarea>
+                    <div class="help-text">Hướng dẫn cho AI về cách hoạt động</div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">💾 Lưu cấu hình</button>
+        </form>
+
+        <div id="status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Check bot status
+        async function checkBotStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                const statusElement = document.getElementById('botStatus');
+                const statusText = document.getElementById('statusText');
+                
+                if (data.online) {
+                    statusElement.className = 'bot-status online';
+                    statusText.innerHTML = `✅ Bot đang hoạt động<br>Tên: ${data.username || 'GDVN Bot'}<br>Servers: ${data.guilds || 0}`;
+                } else {
+                    statusElement.className = 'bot-status offline';
+                    statusText.innerHTML = '❌ Bot đang offline';
+                }
+            } catch (error) {
+                const statusElement = document.getElementById('botStatus');
+                const statusText = document.getElementById('statusText');
+                statusElement.className = 'bot-status offline';
+                statusText.innerHTML = '❌ Không thể kiểm tra trạng thái bot';
+            }
+        }
+
+        // Load current config
+        async function loadConfig() {
+            try {
+                const response = await fetch('/api/config');
+                const config = await response.json();
+                
+                // Fill form with current values
+                Object.keys(config).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element && config[key]) {
+                        element.value = config[key];
+                    }
+                });
+            } catch (error) {
+                console.log('Không thể tải cấu hình hiện tại');
+            }
+        }
+
+        // Save configuration
+        document.getElementById('configForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const config = Object.fromEntries(formData.entries());
+            
+            const statusElement = document.getElementById('status');
+            statusElement.style.display = 'block';
+            statusElement.textContent = 'Đang lưu cấu hình...';
+            statusElement.className = 'status';
+            
+            try {
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(config)
+                });
+                
+                if (response.ok) {
+                    statusElement.textContent = '✅ Đã lưu cấu hình thành công! Bot sẽ khởi động lại.';
+                    statusElement.className = 'status success';
+                    
+                    // Refresh bot status after a delay
+                    setTimeout(checkBotStatus, 3000);
+                } else {
+                    throw new Error('Failed to save config');
+                }
+            } catch (error) {
+                statusElement.textContent = '❌ Lỗi khi lưu cấu hình: ' + error.message;
+                statusElement.className = 'status error';
+            }
+        });
+
+        // Initialize
+        checkBotStatus();
+        loadConfig();
+        
+        // Refresh status every 30 seconds
+        setInterval(checkBotStatus, 30000);
+    </script>
+</body>
+</html>

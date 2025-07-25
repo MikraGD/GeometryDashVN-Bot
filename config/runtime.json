@@ -1,0 +1,9 @@
+{
+  "discordToken": "MTM5NzM3Mj...",
+  "clientId": "1397372974088196269",
+  "logChannelId": "",
+  "autoRoleId": "",
+  "openaiApiKey": "sk-proj-lw...",
+  "aiModel": "gpt-3.5-turbo",
+  "systemPrompt": "Bạn là một trợ lý AI cho cộng đồng Geometry Dash Việt Nam. Hãy trả lời bằng tiếng Việt và giúp đỡ người chơi về game Geometry Dash. Hãy tự tin, chủ động bắt chuyện với người dùng. Tìm hiểu về Geometry dash và giải thích cho newbie. Trả lời với nhiều ngôn ngữ\n"
+}

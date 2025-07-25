@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDVN Bot - Keep Alive Status</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .status-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .status-online {
+            border-left-color: #4CAF50;
+        }
+        .status-offline {
+            border-left-color: #f44336;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        .uptime-guide {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .refresh-btn {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 GDVN Bot Status</h1>
+        
+        <div class="status-card status-online" id="statusCard">
+            <h3>🟢 Bot Status: <span id="botStatus">Loading...</span></h3>
+            <div class="stat-item">
+                <span>📊 Uptime:</span>
+                <span id="uptime">--</span>
+            </div>
+            <div class="stat-item">
+                <span>💾 Memory Usage:</span>
+                <span id="memory">--</span>
+            </div>
+            <div class="stat-item">
+                <span>🔄 Last Ping:</span>
+                <span id="lastPing">--</span>
+            </div>
+            <div class="stat-item">
+                <span>🏷️ Version:</span>
+                <span id="version">1.0.0</span>
+            </div>
+        </div>
+
+        <div class="refresh-btn">
+            <button class="btn" onclick="refreshStatus()">🔄 Refresh Status</button>
+            <a href="/ping" class="btn" target="_blank">🏓 Test Ping</a>
+            <a href="/status" class="btn" target="_blank">📊 Full Status</a>
+        </div>
+
+        <div class="uptime-guide">
+            <h3>🚀 24/7 Uptime Setup</h3>
+            <p>To keep your bot online 24/7, use UptimeRobot to ping this URL every 5 minutes:</p>
+            <div class="code-block" id="pingUrl">
+                Loading ping URL...
+            </div>
+            
+            <h4>🔒 Admin Access:</h4>
+            <div class="code-block">
+                Use /botstatus command in Discord for detailed info<br>
+                Only server administrators can access detailed stats<br>
+                Public endpoints: /ping and /status (basic info only)
+            </div>
+            
+            <h4>📋 UptimeRobot Setup:</h4>
+            <ol>
+                <li>Go to <a href="https://uptimerobot.com/" target="_blank" style="color: #ffeb3b;">uptimerobot.com</a></li>
+                <li>Create free account</li>
+                <li>Add new HTTP monitor</li>
+                <li>Use the ping URL above</li>
+                <li>Set 5-minute interval</li>
+            </ol>
+
+            <p><strong>✅ Benefits:</strong> Your bot will stay online 24/7 automatically!</p>
+        </div>
+    </div>
+
+    <script>
+        let pingUrl = '';
+
+        function updatePingUrl() {
+            // Try to detect the current URL
+            const currentUrl = window.location.origin;
+            pingUrl = currentUrl + '/ping';
+            document.getElementById('pingUrl').textContent = pingUrl;
+        }
+
+        async function refreshStatus() {
+            try {
+                const response = await fetch('/status');
+                const data = await response.json();
+                
+                document.getElementById('botStatus').textContent = data.status === 'online' ? 'Online ✅' : 'Offline ❌';
+                document.getElementById('uptime').textContent = data.uptime;
+                document.getElementById('memory').textContent = data.memory_usage;
+                document.getElementById('lastPing').textContent = new Date().toLocaleString('vi-VN');
+                
+                // Update status card color
+                const statusCard = document.getElementById('statusCard');
+                if (data.status === 'online') {
+                    statusCard.className = 'status-card status-online';
+                } else {
+                    statusCard.className = 'status-card status-offline';
+                }
+            } catch (error) {
+                document.getElementById('botStatus').textContent = 'Error loading status';
+                console.error('Status fetch error:', error);
+            }
+        }
+
+        // Initialize page
+        updatePingUrl();
+        refreshStatus();
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshStatus, 30000);
+    </script>
+</body>
+</html>
