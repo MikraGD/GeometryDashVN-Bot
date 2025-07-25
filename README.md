@@ -35,6 +35,7 @@ Copy .env.example and create your own .env:
 cp .env.example .env
 ```
 Edit .env and fill in your bot token, guild ID, etc.
+
 ▶️ Run the Bot
 ```
 bash
